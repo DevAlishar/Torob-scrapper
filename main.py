@@ -42,6 +42,7 @@ class fetcher:
 
 
 raw = '''
+https://torob.com/p/50179777-6337-4ba1-9f57-024b93367749/%D9%84%D9%BE-%D8%AA%D8%A7%D9%BE-%D8%A7%DB%8C%D8%B3%D9%88%D8%B3-156-%D8%A7%DB%8C%D9%86%DA%86%DB%8C-%D9%85%D8%AF%D9%84-tuf-gaming-f15-fx507vi-i7-13620h-16gb-1tb-rtx4070/
 https://torob.com/p/ca8acc86-9832-47cb-a34a-1557dc004925/%DB%8C%D8%AE%DA%86%D8%A7%D9%84-%D8%A7%DB%8C%D8%B3%D8%AA%DA%A9%D9%88%D9%84-%D9%85%D8%AF%D9%84-tm-835/
 https://torob.com/p/307d8a07-2b6f-4bee-8e9a-8ecce182f1fe/%DB%8C%D8%AE%DA%86%D8%A7%D9%84-%D9%81%D8%B1%DB%8C%D8%B2%D8%B1-%D8%AF%D9%88%D9%82%D9%84%D9%88-%D8%AF%DB%8C%D9%BE%D9%88%DB%8C%D9%86%D8%AA-%D9%85%D8%AF%D9%84-max/
 https://torob.com/p/74476fbc-d8fc-4627-82a5-3f12727e6b62/%DB%8C%D8%AE%DA%86%D8%A7%D9%84-%D8%AC%D9%86%D8%B1%D8%A7%D9%84-%D9%BE%DB%8C%D9%86-27-%D9%81%D9%88%D8%AA-%D9%85%D8%AF%D9%84-rf-m22/
@@ -54,14 +55,23 @@ https://torob.com/p/d660ceff-8220-427c-90ae-10c6fe3a6901/%DB%8C%D8%AE%DA%86%D8%A
 https://torob.com/p/99e692a0-d1d6-4c60-960d-c161c4537289/%DB%8C%D8%AE%DA%86%D8%A7%D9%84-%D9%81%D8%B1%DB%8C%D8%B2%D8%B1-%D8%AF%D9%88%D9%82%D9%84%D9%88-%D9%87%DB%8C%D9%85%D8%A7%D9%84%DB%8C%D8%A7-%D9%85%D8%AF%D9%84-%D9%BE%D8%A7%D9%86%D8%A7%D8%B1%D9%88%D9%85%D8%A7-%D9%BE%D9%84%D8%A7%D8%B3-_-%2Bnr440p%2B-nf280p/
 '''
 
-
 import re
+import json
 
 f = fetcher()
-
-for prk, prname in re.findall(r'https://torob.com/p/(.+)/(.+)/', raw):
-    f.init()
-    try:
-        print(f.get(prk, prname))
-    except Exception as e:
-        print(f'Error {e.args[0].text}')
+for _ in range(1):
+    for prk, prname in re.findall(r'https://torob.com/p/(.+)/(.+)/', raw):
+        f.init()
+        try:
+            data = f.get(prk, prname)['results']
+            data3 = map(lambda d: (d['shop_name'], d['shop_name2']), data)
+            data2 = []
+            for d in data3:
+                if d not in data2:
+                    data2.append(d)
+                else:
+                    print(d[0], ',' ,d[1])
+                    input()
+            print(data2.__len__(), data.__len__())
+        except Exception as e:
+            print(f'Error {e.args[0].text}')
